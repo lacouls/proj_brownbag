@@ -13,3 +13,6 @@ void go(char * buff, int len){
 	
 	KERNEL32$CREATEPROCESSW(L"C:\\Windows\\system32\\calc.exe", NULL, NULL, NULL, FALSE, BELOW_NORMAL_PRIORITY_CLASS, NULL, NULL, &si, &pi);
 	
+	return 0; 
+	
+}
