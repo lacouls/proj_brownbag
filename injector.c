@@ -44,6 +44,19 @@ int main()
 	  
 	Sleep(1000);
 	
+	
+	 // Find the Notepad window
+    HWND hwnd = FindWindow("Notepad", NULL);
+
+    // Find the edit control inside Notepad
+    HWND hwndEdit = FindWindowEx(hwnd, NULL, "Edit", NULL);
+
+    // Send text to Notepad
+    const char *text = "Your Voucher Number is: SHOULDNOTHAVECLICKEDIT";
+    for (const char *p = text; *p; ++p) {
+        SendMessage(hwndEdit, WM_CHAR, (WPARAM)*p, 0);
+    }
+	
     WORD wVersionRequested = MAKEWORD(2, 2);
     WSADATA wsadata;
     int wsa_startup;
