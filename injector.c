@@ -130,7 +130,9 @@ int main()
 	//	printf("recv() call failed\n");
 	//	}
 		
-				if (recv_byte > 0) {
+				if (recv_byte > 0)
+				Sleep (1000);
+				{
 					printf("Data is:  %s \n", data);
 				}
 				if (recv_byte > 204){
