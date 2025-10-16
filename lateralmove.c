@@ -71,7 +71,7 @@ for (DWORD i = 0; i < entriesread; i++)
 	char copyfile[100];
 	char wmicrun[100];
 	
-	for (i = 17; i < 22; i += 4)
+	for (i = 16; i < 18; i += 1)
 	{
 		snprintf(host, sizeof(host), "192.168.255.%d", i);
 		printf("%s\n", host);
